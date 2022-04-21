@@ -49,7 +49,7 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	JButton SignoutMSButton = new JButton("SIGN-OUT");
 	boolean menuVisited;
 	JLabel MenuTitle = new JLabel("MAIN MENU");
-	ImageIcon MainMenuCrown = new ImageIcon("Wpawn.png");
+	ImageIcon MainMenuCrown = new ImageIcon("MainMenuCrown.png");
 	JLabel MMCrown = new JLabel();
 	//boolean menuVisited = false;
 	//************************************************
@@ -67,7 +67,6 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	JPanel chessBackground = new JPanel();
 	JLayeredPane layeredPane;
 	JPanel chessBoard;
-	JPanel chessBoardIndex;
 	JLabel chessPiece;
 	int xAdjustment;
 	int yAdjustment;
@@ -99,7 +98,7 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		this.setVisible(true);
 		this.setSize(1000, 1000);
 		this.setTitle("Bash V 1.0");
-		ImageIcon logo = new ImageIcon("Wqueen.png");
+		ImageIcon logo = new ImageIcon("Wrook.png");
 		this.setIconImage(logo.getImage());
 		startScreen(startVisited);
 	}
@@ -379,85 +378,80 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		  //Add a chess board to the Layered Pane 
 		 
 		  chessBoard = new JPanel();
-		  chessBoardIndex = new JPanel();
 		  layeredPane.add(chessBoard, JLayeredPane.DEFAULT_LAYER);
-		  layeredPane.add(chessBoardIndex, 1 );
 		  
 		  chessBoard.setLayout( new GridLayout(8, 8) );
 		  chessBoard.setPreferredSize( boardSize );
 		  chessBoard.setBounds(0, 0, boardSize.width, boardSize.height);
 		 
-		/*  for (int i = 0; i < 64; i++) {
+		  for (int i = 0; i < 64; i++) {
 		  JPanel square = new JPanel( new BorderLayout());
+		  //square.setToolTipText(""+i);
 		  chessBoard.add( square );
 		  int row = (i / 8) % 2;
 		  if (row == 0)
-		  square.setBackground( i % 2 == 0 ? new Color(0x6EAEDD) :new Color(0x0A4773) ); // 1     Bash
+		  square.setBackground( i % 2 == 0 ? new Color(0xFFD700) :new Color(0X99004C) ); // 1     Bash
 		  else
-		  square.setBackground( i % 2 == 0 ? new Color(0x0A4773) : new Color(0x6EAEDD) ); //Bash     1
-		  } */
-		  Board chessGame = new Board();
-		  for(int i = 0; i < 8; i++) {
-			  for(int j = 0; j < 8; j++ ) {
-				  JPanel square = new JPanel( new BorderLayout());
-				  chessBoard.add( square );
-				  int row = i % 2;
-				  if (row == 0)
-				  square.setBackground( j % 2 == 0 ? new Color(0x6EAEDD) :new Color(0x0A4773) ); // 1     Bash
-				  else
-				  square.setBackground( j % 2 == 0 ? new Color(0x0A4773) : new Color(0x6EAEDD) ); //Bash     1
-				 
-				  
-			  }
+		  square.setBackground( i % 2 == 0 ? new Color(0X99004C) : new Color(0xFFD700) ); //Bash     1
 		  }
 		 
 		  //Add pieces to the board
-		  JLabel piece = new JLabel( new ImageIcon("Brook.png") );
+		  JLabel piece = new JLabel(new ImageIcon("Brook.png"));
 		  JPanel panel = (JPanel)chessBoard.getComponent(0);
+		  piece.setName("Brook");
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Bknight.png") );
+		  piece = new JLabel(new ImageIcon("Bknight.png"));
+		  piece.setName("Bknight");
 		  panel = (JPanel)chessBoard.getComponent(1);
 		  panel.add(piece);
 		  
 		  piece = new JLabel( new ImageIcon("Bbishop.png") );
+		  piece.setName("Bbishop");
 		  panel = (JPanel)chessBoard.getComponent(2);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Bqueen.png") );
+		  piece = new JLabel(new ImageIcon("Bqueen.png"));
+		  piece.setName("Bqueen");
 		  panel = (JPanel)chessBoard.getComponent(3);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Bking.png") );
+		  piece = new JLabel(new ImageIcon("Bking.png"));
+		  piece.setName("Bking");
 		  panel = (JPanel)chessBoard.getComponent(4);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Bbishop.png") );
+		  piece = new JLabel(new ImageIcon("Bbishop.png"));
+		  piece.setName("Bbishop");
 		  panel = (JPanel)chessBoard.getComponent(5);
 		  panel.add(piece);
 		  
-		  piece = new JLabel(new ImageIcon("Bknight.png"));
+		  piece = new JLabel(new ImageIcon("Bknight.png") );
+		  piece.setName("Bknight");
 		  panel = (JPanel)chessBoard.getComponent(6);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Brook.png") );
+		  piece = new JLabel(new ImageIcon("Brook.png"));
+		  piece.setName("Brook");
 		  panel = (JPanel)chessBoard.getComponent(7);
 		  panel.add(piece);
 		  
-		  // pawn class works
 		  for(int i = 8; i < 16; i++) {
-			  Pawn pawn = new Pawn(i-1, i-9, false, 'p');
-			  panel = (JPanel)chessBoard.getComponent(i);
-			  panel.add(pawn.getImage());
-		  }
-		  
-		  for(int i = 48; i < 56; i++) {
-			  piece = new JLabel( new ImageIcon("Wpawn.png") );
+			  piece = new JLabel( new ImageIcon("Bpawn.png")) ;
+			  piece.setName("Bpawn");
 			  panel = (JPanel)chessBoard.getComponent(i);
 			  panel.add(piece);
 		  }
 		  
-		  piece = new JLabel( new ImageIcon("Wrook.png") );
+		  for(int i = 48; i < 56; i++) {
+			  
+			  piece = new JLabel( new ImageIcon("Wpawn.png"));
+			  piece.setName("Wpawn");
+			  panel = (JPanel)chessBoard.getComponent(i);
+			  panel.add(piece);
+		  }
+		  
+		  piece = new JLabel(new ImageIcon("Wrook.png") );
 		  panel = (JPanel)chessBoard.getComponent(56);
 		  panel.add(piece);
 		  
@@ -467,27 +461,38 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		  
 		  piece = new JLabel( new ImageIcon("Wbishop.png") );
 		  panel = (JPanel)chessBoard.getComponent(58);
+		  piece.setName("Wbishop");
 		  panel.add(piece);
 		  
 		  piece = new JLabel( new ImageIcon("Wqueen.png") );
 		  panel = (JPanel)chessBoard.getComponent(59);
+		  piece.setName("Wqueen");
 		  panel.add(piece);
 		  
 		  piece = new JLabel( new ImageIcon("Wking.png") );
 		  panel = (JPanel)chessBoard.getComponent(60);
+		  piece.setName("Wking");
 		  panel.add(piece);
 		  
 		  piece = new JLabel(new ImageIcon("Wbishop.png"));
 		  panel = (JPanel)chessBoard.getComponent(61);
+		  piece.setName("Wbishop");
 		  panel.add(piece);
 		  
 		  piece = new JLabel( new ImageIcon("Wknight.png") );
 		  panel = (JPanel)chessBoard.getComponent(62);
+		  piece.setName("Wknight");
 		  panel.add(piece);
 		  
 		  piece = new JLabel( new ImageIcon("Wrook.png") );
 		  panel = (JPanel)chessBoard.getComponent(63);
+		  piece.setName("Wrook");
 		  panel.add(piece);
+		  
+		  piece = new Pawn(true, 30);
+		  panel = (JPanel)chessBoard.getComponent(30);
+		  panel.add(piece);
+		  System.out.println(piece.getParent().toString());
 		  
 		 
 		  }
@@ -498,11 +503,13 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		 
 		  if (c instanceof JPanel) 
 		  return;
-		 
+		  //System.out.println(c.getName());
 		  Point parentLocation = c.getParent().getLocation();
 		  xAdjustment = parentLocation.x - e.getX();
 		  yAdjustment = parentLocation.y - e.getY();
-		  chessPiece = (JLabel)c;
+		  System.out.print("\n"+ c.getName() + " " + (parentLocation.x/75) + " " + (parentLocation.y/75) + " to ");
+		  //changed below from JLabel to piece
+		  chessPiece = (JLabel) c;
 		  chessPiece.setLocation(e.getX() + xAdjustment, e.getY() + yAdjustment);
 		  chessPiece.setSize(chessPiece.getWidth(), chessPiece.getHeight());
 		  layeredPane.add(chessPiece, JLayeredPane.DRAG_LAYER);
@@ -519,18 +526,19 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		 
 		  public void mouseReleased(MouseEvent e) {
 		  if(chessPiece == null) return;
-		 
 		  
 		  chessPiece.setVisible(false);
-		  Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
-		 
-		  if (c instanceof JLabel){
+		  Component c =  chessBoard.findComponentAt(e.getX(),e.getY());
+		  int x = c.getX();
+		  int y = c.getY();
+		  if (c instanceof JLabel){// || c instanceof piece){
+		  //((JLabel) c).getIcon().toString();
 		  Container parent = c.getParent();
-		 // if(c.getParent().isTeam())
 		  parent.remove(0);
 		  parent.add( chessPiece );
 		  }
 		  else {
+			  System.out.print(x/75 + " " + y/75);
 		  Container parent = (Container)c;
 		  parent.add( chessPiece );
 		  }
@@ -548,6 +556,11 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		  }
 		  public void mouseExited(MouseEvent e) {
 		  
+		  }
+		  public boolean isOccupied(JPanel panel) {
+			  //panel.
+			  //if()
+			  return false;
 		  }
 	
 
