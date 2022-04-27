@@ -50,6 +50,8 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	//************************************************
 	// create account elements
 	JPanel createAccountScreen = new JPanel();
+	JLabel username = new JLabel ("Username: ");
+	JLabel password = new JLabel ("Password: ");
 	JTextField accountName = new JTextField();
 	JTextField accountPassword = new JTextField();
 	JButton createButton = new JButton("CREATE");
@@ -676,6 +678,10 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			goBackButton.addActionListener(this);
 			createAccountDrag.add(createButton);
 			createAccountDrag.add(goBackButton);
+			username.setFont(new Font("MV Boli", Font.BOLD, 20));
+			password.setFont(new Font("MV Boli", Font.BOLD, 20));
+			createAccountDrag.add(username);
+			createAccountDrag.add(password);
 			createButton.setForeground(Color.white);
 			createButton.setBackground(Color.black);
 			goBackButton.setForeground(Color.white);
@@ -695,6 +701,8 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	        createAccountDrag.add(accountPassword);
 	        //Spacing of create account elements
 			createAccountTitle.setBounds(430, 100, 400, 100);
+			username.setBounds(325,250,350,100);
+			password.setBounds(325,350,350,100);
 			accountName.setBounds(450, 250, 350, 100);
 			accountPassword.setBounds(450,350,350,100);
 			createButton.setBounds(450,450,350,100);
