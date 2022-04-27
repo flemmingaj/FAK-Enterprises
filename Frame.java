@@ -37,7 +37,10 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	//************************************************
 	// sign-in screen elements 
 	JPanel SigninScreen = new JPanel();
+	JLabel SigninUser = new JLabel("Username: ");
+	JLabel SigninPass = new JLabel("Password: ");
 	JTextField SigninTF = new JTextField();
+	JTextField SigninTF2 = new JTextField();
 	JButton TFButton = new JButton("ENTER");
 	JButton createAccount = new JButton("CREATE ACCOUNT");
 	boolean signinVisited;
@@ -624,10 +627,22 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		    SigninTF.setForeground(new Color(0x21a628));
 		    SigninTF.setBackground(Color.BLACK);
 		    SigninTF.setCaretColor(new Color(0x21a628));
+		    SigninTF2.setFont(new Font("MV Boli", Font.BOLD,25));
+		    SigninTF2.setForeground(new Color(0x21a628));
+		    SigninTF2.setBackground(Color.BLACK);
+		    SigninTF2.setCaretColor(new Color(0x21a628));
+		    SigninUser.setFont(new Font("MV Boli", Font.BOLD, 20));
+			SigninPass.setFont(new Font("MV Boli", Font.BOLD, 20));
+			SigninDrag.add(SigninUser);
+			SigninDrag.add(SigninPass);
 	        SigninDrag.add(SigninTF);
+	        SigninDrag.add(SigninTF2);
 			// spacing of Signin elements
-			SigninTitle.setBounds(535, 200, 325, 150);
-			SigninTF.setBounds(450, 350, 350, 100);
+			SigninTitle.setBounds(535, 100, 325, 150);
+			SigninUser.setBounds(325,250,350,100);
+			SigninPass.setBounds(325,350,350,100);
+			SigninTF.setBounds(450, 250, 350, 100);
+			SigninTF2.setBounds(450,350,350,100);
 			TFButton.setBounds(450,450,350,100);
 			createAccount.setBounds(450,550,350,100);
 			// Signin design
