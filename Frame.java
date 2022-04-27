@@ -52,15 +52,14 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	JPanel createAccountScreen = new JPanel();
 	JTextField accountName = new JTextField();
 	JTextField accountPassword = new JTextField();
+	JButton createButton = new JButton("CREATE");
+	JButton goBackButton = new JButton("EXIT");
+	boolean createVisited;
 	JLabel createAccountTitle = new JLabel("CREATE ACCOUNT");
 	JPanel createAccountCenter = new JPanel();
 	JLayeredPane createAccountLayered = new JLayeredPane();
 	JPanel createAccountDesign = new JPanel();
 	JPanel createAccountDrag = new JPanel();
-	JButton createButton = new JButton("CREATE");
-	JButton goBackButton = new JButton("EXIT");
-	boolean createVisited;
-	
 	//************************************************
 	// menu screen elements 
 	JPanel MenuScreen = new JPanel();
@@ -162,7 +161,7 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			}
 			
 			if(e.getSource() == createAccount) {
-				System.out.println("Please enter a username and password");
+				//System.out.println("Please enter a username and password");
 				SigninScreen.setVisible(false);
 				createAccountScreen(createVisited);
 			}
@@ -665,18 +664,18 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			createAccountScreen.add(MenuSouth, BorderLayout.SOUTH);
 			createAccountScreen.add(MenuEast, BorderLayout.EAST);
 			createAccountScreen.add(MenuWest, BorderLayout.WEST);
-			createAccountScreen.add(SigninCenter, BorderLayout.CENTER);
+			createAccountScreen.add(createAccountCenter, BorderLayout.CENTER);
 			createAccountCenter.add(createAccountLayered);
 			createAccountLayered.setPreferredSize(new Dimension(1200,1200));
-			createAccountLayered.add(SigninDesign, Integer.valueOf(0)); // bottom layer
-			createAccountLayered.add(SigninDrag, Integer.valueOf(1)); // top layer
+			createAccountLayered.add(createAccountDesign, Integer.valueOf(0)); // bottom layer
+			createAccountLayered.add(createAccountDrag, Integer.valueOf(1)); // top layer
 			createAccountDrag.setOpaque(false);
 			createAccountDrag.setBounds(0, 0, 1200, 1200);
 			createAccountDrag.setLayout(null);
 			createButton.addActionListener(this);
 			goBackButton.addActionListener(this);
-			createAccountDrag.add(TFButton);
-			createAccountDrag.add(createAccount);
+			createAccountDrag.add(createButton);
+			createAccountDrag.add(goBackButton);
 			createButton.setForeground(Color.white);
 			createButton.setBackground(Color.black);
 			goBackButton.setForeground(Color.white);
@@ -695,11 +694,11 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	        createAccountDrag.add(accountName);
 	        createAccountDrag.add(accountPassword);
 	        //Spacing of create account elements
-			createAccountTitle.setBounds(535, 200, 325, 150);
-			accountName.setBounds(450, 350, 350, 100);
-			accountPassword.setBounds(450,450,350,100);
-			createButton.setBounds(450,550,350,100);
-			goBackButton.setBounds(450,650,350,100);
+			createAccountTitle.setBounds(430, 100, 400, 100);
+			accountName.setBounds(450, 250, 350, 100);
+			accountPassword.setBounds(450,350,350,100);
+			createButton.setBounds(450,450,350,100);
+			goBackButton.setBounds(450,550,350,100);
 			// create account design
 			 createAccountDesign.setLayout( new GridLayout(24, 24) );
 			 createAccountDesign.setBounds(0, 0, 1200, 1200);
@@ -709,9 +708,9 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 					  createAccountDesign.add( square );
 					  int row = i % 2;
 					  if (row == 0)
-					  square.setBackground( j % 2 == 0 ? new Color(0x0f5913) :new Color(0x126e16) ); // 1     Signin
+					  square.setBackground( j % 2 == 0 ? new Color(0x0f5913) :new Color(0x126e16) );   
 					  else
-					  square.setBackground( j % 2 == 0 ? new Color(0x126e16) : new Color(0x0f5913) ); //Signin     1     
+					  square.setBackground( j % 2 == 0 ? new Color(0x126e16) : new Color(0x0f5913) );    
 							  }
 			  }
 			this.add(createAccountScreen);
