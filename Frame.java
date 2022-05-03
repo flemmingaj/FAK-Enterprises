@@ -135,6 +135,11 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	boolean optionsVisited;
 	JLabel OptionsTitle = new JLabel("OPTIONS");
 	JPanel OptionsCenter = new JPanel();
+	JTextField OptionsChangeTF = new JTextField();
+	JButton OptionsChangeButton = new JButton("CHANGE NAME");
+	//JButton red = new JButton("RED");
+	//JButton blue = new JButton("BLUE");
+	//JButton def = new JButton("DEFAULT");
 	ImageIcon OptionsIcon =loadImage("/imgs/Wrook.png");
 	JLayeredPane OptionsLayered = new JLayeredPane();
 	JPanel OptionsDesign = new JPanel();
@@ -199,6 +204,19 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 				createAccountScreen(createVisited);
 			}
 			
+			if(e.getSource() == OptionsChangeButton) {
+				String n = OptionsChangeTF.getText();
+				System.out.println(n);
+				if(n != "") {
+					User.setText(n);
+					OptionsChangeTF.setText("");
+					OptionsScreen.setVisible(false);
+					mainMenu(menuVisited);
+				}
+				else {
+					System.out.println("Please enter a username");
+				}
+			}
 			//Create account screen actions
 			if(e.getSource() == createButton) {
 				String name = accountName.getText();
@@ -648,9 +666,19 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		OptionsTitle.setFont(new Font("MV Boli", Font.BOLD, 40));
 		OptionsTitle.setForeground(Color.white);
 		OptionsDrag.add(OptionsTitle);
+		OptionsChangeTF.setFont(new Font("MV Boli", Font.BOLD,25));
+		OptionsChangeTF.setForeground(new Color(0x21a628));
+		OptionsChangeTF.setBackground(Color.BLACK);
+		OptionsChangeTF.setCaretColor(new Color(0x21a628));
+		OptionsChangeButton.setForeground(Color.white);
+		OptionsChangeButton.setBackground(Color.black);
+		OptionsDrag.add(OptionsChangeTF);
+		OptionsDrag.add(OptionsChangeButton);
 		// spacing of Options elements
 		OptionsTitle.setBounds(530, 25, 325, 150);
 		OptionsBackButton.setBounds(10, 10, 100, 50);
+		OptionsChangeTF.setBounds(330,200,325,100);
+		OptionsChangeButton.setBounds(680,200,125,100);
 		// Options design
 		 OptionsDesign.setLayout( new GridLayout(24, 24) );
 		 OptionsDesign.setBounds(0, 0, 1200, 1200);
