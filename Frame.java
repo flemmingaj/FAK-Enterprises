@@ -117,6 +117,12 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	boolean StatVisited;
 	JLabel StatTitle = new JLabel("STATS");
 	JButton StatBackButton = new JButton("BACK");
+	JLabel StatPawn = new JLabel("Pawns captured: ");
+	JLabel StatRook = new JLabel("Rooks captured: ");
+	JLabel StatBishop = new JLabel("Bishops captured: ");
+	JLabel StatKnight = new JLabel("Knights captured: ");
+	JLabel StatQueen = new JLabel("Queens captured: ");
+	JLabel StatWins = new JLabel("Wins: ");
 	JPanel StatCenter = new JPanel();
 	ImageIcon StatIcon =loadImage("/imgs/Wbishop.png");
 	JLayeredPane StatLayered = new JLayeredPane();
@@ -557,9 +563,34 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		StatTitle.setFont(new Font("MV Boli", Font.BOLD, 40));
 		StatTitle.setForeground(Color.white);
 		StatDrag.add(StatTitle);
+		Font stats = new Font("MV Boli", Font.BOLD,15);
+		StatPawn.setFont(stats);
+		StatBishop.setFont(stats);
+		StatRook.setFont(stats);
+		StatKnight.setFont(stats);
+		StatQueen.setFont(stats);
+		StatWins.setFont(stats);
+		StatPawn.setForeground(Color.white);
+		StatBishop.setForeground(Color.white);
+		StatRook.setForeground(Color.white);
+		StatKnight.setForeground(Color.white);
+		StatQueen.setForeground(Color.white);
+		StatWins.setForeground(Color.white);
+		StatDrag.add(StatPawn);
+		StatDrag.add(StatBishop);
+		StatDrag.add(StatRook);
+		StatDrag.add(StatKnight);
+		StatDrag.add(StatQueen);
+		StatDrag.add(StatWins);
 		// spacing of Stat elements
 		StatTitle.setBounds(530, 25, 325, 150);
 		StatBackButton.setBounds(10, 10, 100, 50);
+		StatPawn.setBounds(330,100,500,100);
+		StatBishop.setBounds(330,150,500,100);
+		StatRook.setBounds(330,200,500,100);
+		StatKnight.setBounds(330,250,500,100);
+		StatQueen.setBounds(330,300,500,100);
+		StatWins.setBounds(330,350,500,100);
 		// Stat design
 		 StatDesign.setLayout( new GridLayout(24, 24) );
 		 StatDesign.setBounds(0, 0, 1200, 1200);
