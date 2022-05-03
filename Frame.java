@@ -17,11 +17,13 @@ import javax.swing.JButton;
 // ####################################
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.*;
 import javax.swing.*;
 
 // ####################################
 class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotionListener{
+
 	//************************************************
 	// start screen elements
 	JButton start = new JButton("START");
@@ -41,11 +43,12 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	JTextField SigninTF = new JTextField();
 	JTextField SigninTF2 = new JTextField();
 	JButton TFButton = new JButton("ENTER");
+	JButton guestButton = new JButton("Sign-in as Guest");
 	JButton createAccount = new JButton("CREATE ACCOUNT");
 	boolean signinVisited;
 	JLabel SigninTitle = new JLabel("SIGN-IN");
 	JPanel SigninCenter = new JPanel();
-	ImageIcon SignoutIcon = new ImageIcon("Wking.png");
+	ImageIcon SignoutIcon =loadImage("/imgs/Wking.png");
 	JLayeredPane SigninLayered = new JLayeredPane();
 	JPanel SigninDesign = new JPanel();
 	JPanel SigninDrag = new JPanel();
@@ -74,7 +77,7 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	JButton OptionsMSButton = new JButton("Options");
 	JButton SignoutMSButton = new JButton("SIGN-OUT");
 	boolean menuVisited;
-	ImageIcon MenuIcon = new ImageIcon("Wpawn.png");
+	ImageIcon MenuIcon =loadImage("/imgs/Wpawn.png");
 	JLabel MenuImg = new JLabel();
 	JLayeredPane MenuLayered = new JLayeredPane();
 	JPanel MenuDesign = new JPanel();
@@ -86,7 +89,7 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	boolean bashVisited;
 	JLabel BashTitle = new JLabel("COMING SOON");
 	JButton BashBackButton = new JButton("BACK");
-	ImageIcon BashIcon = new ImageIcon("Wknight.png");
+	ImageIcon BashIcon = loadImage("/imgs/Wknight.png");
 	JPanel BashCenter = new JPanel();
 	JLayeredPane BashLayered = new JLayeredPane();
 	JPanel BashDesign = new JPanel();
@@ -105,7 +108,7 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	int xAdjustment;
 	int yAdjustment;
 	JPanel chessCenter = new JPanel();
-	ImageIcon ChessIcon = new ImageIcon("Wqueen.png");
+	ImageIcon ChessIcon =loadImage("/imgs/Wqueen.png");
 	JButton ExitToMain = new JButton("EXIT");
 	JButton ResetBoard = new JButton("Reset");
 	//************************************************
@@ -114,8 +117,20 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	boolean StatVisited;
 	JLabel StatTitle = new JLabel("STATS");
 	JButton StatBackButton = new JButton("BACK");
+	JLabel StatPawn = new JLabel("Pawns captured: ");
+	JLabel StatRook = new JLabel("Rooks captured: ");
+	JLabel StatBishop = new JLabel("Bishops captured: ");
+	JLabel StatKnight = new JLabel("Knights captured: ");
+	JLabel StatQueen = new JLabel("Queens captured: ");
+	JLabel StatKing = new JLabel("Kings captured: ");
+	JLabel StatWins = new JLabel("Wins: ");
+	JButton StatBash = new JButton("BASH");
+	JButton StatChess = new JButton("Chess");
+	
+	JButton StatOption = new JButton("Options");
+	JButton StatSignout = new JButton("SIGN-OUT");
 	JPanel StatCenter = new JPanel();
-	ImageIcon StatIcon = new ImageIcon("Wbishop.png");
+	ImageIcon StatIcon =loadImage("/imgs/Wbishop.png");
 	JLayeredPane StatLayered = new JLayeredPane();
 	JPanel StatDesign = new JPanel();
 	JPanel StatDrag = new JPanel();
@@ -125,13 +140,16 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	JButton OptionsBackButton = new JButton("BACK");
 	boolean optionsVisited;
 	JLabel OptionsTitle = new JLabel("OPTIONS");
-	JPanel OptionsCenter = new JPanel();
 	JTextField OptionsChangeTF = new JTextField();
 	JButton OptionsChangeButton = new JButton("CHANGE NAME");
-	//JButton red = new JButton("RED");
-	//JButton blue = new JButton("BLUE");
-	//JButton def = new JButton("DEFAULT");
-	ImageIcon OptionsIcon = new ImageIcon("Wrook.png");
+	JTextField OptionsChangePWTF = new JTextField();
+	JButton OptionsChangePWButton = new JButton("CHANGE PASSWORD");
+	JButton OptionBash = new JButton("BASH");
+	JButton OptionChess = new JButton("Chess");
+	JButton OptionStat = new JButton("Stats");
+	JButton OptionSignout = new JButton("SIGN-OUT");
+	JPanel OptionsCenter = new JPanel();
+	ImageIcon OptionsIcon =loadImage("/imgs/Wrook.png");
 	JLayeredPane OptionsLayered = new JLayeredPane();
 	JPanel OptionsDesign = new JPanel();
 	JPanel OptionsDrag = new JPanel();
@@ -141,6 +159,12 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	JPanel MenuSouth = new JPanel();
 	JPanel MenuEast = new JPanel();
 	JPanel MenuWest = new JPanel();
+	ImageIcon Img;
+	JLabel User = new JLabel();
+	JLayeredPane NorthLayered = new JLayeredPane();
+	JPanel NorthDesign = new JPanel();
+	JPanel NorthDrag = new JPanel();
+	
 	//************************************************
 	Frame(){
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -151,6 +175,14 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		ImageIcon logo = new ImageIcon("Wqueen.png");
 		this.setIconImage(logo.getImage());
 		startScreen(startVisited);
+	}
+	public ImageIcon loadImage(String s) {
+		try {
+			Img = new ImageIcon(Frame.class.getResource(s));
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return Img;
 	}
 	
 	//checks what button was clicked and sends user to the proper menu screen
@@ -164,20 +196,49 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			
 			//Sign-in screen actions
 			if(e.getSource()== TFButton) {
+				User.setText("User: " + SigninTF.getText());
 				System.out.println("Welcome " + SigninTF.getText());
 				SigninScreen.setVisible(false);
 				mainMenu(menuVisited);	
 			}
+			if(e.getSource() == guestButton) {
+				User.setText("User: Guest");
+				System.out.println("Welcome Guest");
+				SigninScreen.setVisible(false);
+				mainMenu(menuVisited);
+			}
 			
+			if(e.getSource() == OptionsChangeButton) {
+				String n = OptionsChangeTF.getText();
+				System.out.println(n);
+				if(n != "") {
+					User.setText(n);
+					OptionsChangeTF.setText("");
+					OptionsScreen.setVisible(false);
+					mainMenu(menuVisited);
+				}
+				else {
+					System.out.println("Please enter a username");
+				}
+			}
 			if(e.getSource() == createAccount) {
-				//System.out.println("Please enter a username and password");
 				SigninScreen.setVisible(false);
 				createAccountScreen(createVisited);
 			}
 			
 			//Create account screen actions
 			if(e.getSource() == createButton) {
-				
+				String name = accountName.getText();
+				String pw = accountPassword.getText();
+				if(name != "" && pw != "") {
+					account u = new account(name, pw);
+					User.setText(name);
+					createAccountScreen.setVisible(false);
+					mainMenu(menuVisited);
+				}
+				else {
+					System.out.println("Username and password cannot be empty");
+				}
 			}
 			
 			if(e.getSource() == goBackButton) {
@@ -210,10 +271,59 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			}
 			
 			if(e.getSource()== SignoutMSButton) {
+				User.setText("");
+				MenuDrag.remove(User);
 				MenuScreen.setVisible(false);
 				startScreen(startVisited);
 			}
 			
+			if(e.getSource() == StatBash) {
+				StatScreen.setVisible(false);
+				bashScreen(bashVisited);
+			}
+				
+			
+			if(e.getSource() == StatChess) {
+				StatScreen.setVisible(false);
+				chessBoard();
+			}
+				
+			
+			if(e.getSource() == StatOption) {
+				StatScreen.setVisible(false);
+				optionScreen(optionsVisited);
+			}
+			
+			if(e.getSource()== StatSignout) {
+				User.setText("");
+				StatDrag.remove(User);
+				StatScreen.setVisible(false);
+				startScreen(startVisited);
+			}
+			if(e.getSource() == OptionBash) {
+				OptionsScreen.setVisible(false);
+				bashScreen(bashVisited);
+			}
+				
+			
+			if(e.getSource() == OptionChess) {
+				OptionsScreen.setVisible(false);
+				chessBoard();
+			}
+				
+			
+			if(e.getSource() == OptionStat) {
+				OptionsScreen.setVisible(false);
+				statScreen(StatVisited);
+			}
+				
+			
+			if(e.getSource()== OptionSignout) {
+				User.setText("");
+				OptionsDrag.remove(User);
+				OptionsScreen.setVisible(false);
+				startScreen(startVisited);
+			}
 			//Option screen
 			if(e.getSource()== OptionsBackButton) {
 				OptionsScreen.setVisible(false);
@@ -250,6 +360,7 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 				ResetBoard.setVisible(false);
 				chessGameDemo();
 			}
+			
 				
 		}
 	
@@ -303,9 +414,9 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 				  StartDesign.add( square );
 				  int row = i % 2;
 				  if (row == 0)
-				  square.setBackground( j % 2 == 0 ? new Color(0x261066) :new Color(0x2b107d) ); // 1     Bash
+				  square.setBackground( j % 2 == 0 ? new Color(50,50,50) :new Color(50,50,50) ); // 1     Bash
 				  else
-				  square.setBackground( j % 2 == 0 ? new Color(0x2b107d) : new Color(0x261066) ); //Bash     1     
+				  square.setBackground( j % 2 == 0 ? new Color(50,50,50) : new Color(50,50,50) ); //Bash     1     
 				 
 				  
 			  }
@@ -319,6 +430,15 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			StartScreen.add(MenuEast, BorderLayout.EAST);
 			StartScreen.add(MenuWest, BorderLayout.WEST);
 			StartScreen.add(StartCenter, BorderLayout.CENTER);
+			MenuNorth.setBackground(new Color(50,50,50));
+			StartImg.setText("BASH");
+			StartImg.setFont(new Font("MV Boli", Font.BOLD, 40));
+			StartImg.setForeground(Color.white);
+			StartImg.setIcon(BashIcon);
+			StartImg.setVerticalTextPosition(JLabel.BOTTOM);
+			StartImg.setHorizontalTextPosition(JLabel.CENTER);
+			StartDrag.add(StartImg);
+			StartImg.setBounds(560, 200, 325, 150);
 			StartScreen.setVisible(true);
 		}
 	}
@@ -347,6 +467,9 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		 MenuDrag.add(MenuImg);
 		 MenuImg.setFont(new Font("MV Boli", Font.BOLD, 40));
 		 MenuImg.setForeground(Color.white);
+		 MenuDrag.add(User);
+		 User.setFont(new Font("MV Boli", Font.BOLD, 20));
+		 User.setForeground(Color.white);
 		 //chess button
 		 MenuDrag.add(ChessMSButton);
 		 ChessMSButton.addActionListener(this);
@@ -378,12 +501,15 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		 SignoutMSButton.setForeground(Color.white);
 		 SignoutMSButton.setBackground(Color.black);
 		 // spacing of menu elements 
-		 SignoutMSButton.setBounds(10, 10, 100, 50);// x, y, width, height
-		 MenuImg.setBounds(450, 200, 325, 100); // x, y, width, height
-		 ChessMSButton.setBounds(425, 350,  150, 70);
-		 StatMSButton.setBounds(650, 350, 150, 70);
-		 BashMSButton.setBounds(425,  450, 150, 70);
-		 OptionsMSButton.setBounds(650, 450, 150, 70);
+		 User.setBounds(10, 10, 250,50);// x, y, width, height
+		 //User.setBounds(50, 10, 250,250);
+		 MenuImg.setBounds(10, 50, 350, 100); // x, y, width, height
+		 ChessMSButton.setBounds(25, 150,  150, 70);
+		 BashMSButton.setBounds(25, 250, 150, 70);
+		 StatMSButton.setBounds(25,  350, 150, 70);
+		 OptionsMSButton.setBounds(25, 450, 150, 70);
+		 SignoutMSButton.setBounds(25,550, 150,70);
+		 // menu design 
 		 // menu design 
 		 MenuDesign.setLayout( new GridLayout(24, 24) );
 		 MenuDesign.setBounds(0, 0, 1200, 1200);
@@ -393,9 +519,9 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 				  MenuDesign.add( square );
 				  int row = i % 2;
 				  if (row == 0)
-				  square.setBackground( j % 2 == 0 ? new Color(0x851423) :new Color(0x66111D) ); // 1     Bash
+				  square.setBackground( j % 2 == 0 ? new Color(50,50,50) :new Color(50,50,50) ); // 1     Bash
 				  else
-				  square.setBackground( j % 2 == 0 ? new Color(0x66111D) : new Color(0x851423) ); //Bash     1     
+				  square.setBackground( j % 2 == 0 ? new Color(50,50,50) : new Color(50,50,50) ); //Bash     1     
 				 
 				  
 			  }
@@ -411,6 +537,10 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			MenuScreen.add(MenuEast, BorderLayout.EAST);
 			MenuScreen.add(MenuWest, BorderLayout.WEST);
 			MenuScreen.add(MenuCenter, BorderLayout.CENTER);
+			MenuDrag.add(User);
+			User.setFont(new Font("MV Boli", Font.BOLD, 20));
+		    User.setForeground(Color.white);
+		    User.setBounds(10, 10, 250,50);// x, y, width, height
 			MenuScreen.setVisible(true);
 		}
 	}
@@ -418,10 +548,10 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	public void bashScreen(boolean visited) {
 		if(visited == false) {
 			BashCenter.setBackground(new Color(50,50,50));
-		    MenuNorth.setPreferredSize(new Dimension(100,100));
+		  /*  MenuNorth.setPreferredSize(new Dimension(100,100));
 			MenuSouth.setPreferredSize(new Dimension(100,100));
 			MenuEast.setPreferredSize(new Dimension(170,100));
-			MenuWest.setPreferredSize(new Dimension(170,100));
+			MenuWest.setPreferredSize(new Dimension(170,100));*/
 			BashCenter.setPreferredSize(new Dimension(500,500));
 			BashScreen.setLayout(new BorderLayout());
 			BashScreen.add(MenuNorth, BorderLayout.NORTH);
@@ -429,6 +559,7 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			BashScreen.add(MenuEast, BorderLayout.EAST);
 			BashScreen.add(MenuWest, BorderLayout.WEST);
 			BashScreen.add(BashCenter, BorderLayout.CENTER);
+			MenuNorth.setBackground(new Color(0x153c7a));
 			//Bash elements
 			BashCenter.add(BashLayered);
 			BashLayered.setPreferredSize(new Dimension(1200,1200));
@@ -456,9 +587,9 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 					  BashDesign.add( square );
 					  int row = i % 2;
 					  if (row == 0)
-					  square.setBackground( j % 2 == 0 ? new Color(0xd66d11) :new Color(0xad5b13) ); // 1     Bash
+					  square.setBackground( j % 2 == 0 ? new Color(50,50,50) :new Color(50,50,50) ); // 1     Bash
 					  else
-					  square.setBackground( j % 2 == 0 ? new Color(0xad5b13) : new Color(0xd66d11) ); //Bash     1     
+					  square.setBackground( j % 2 == 0 ? new Color(50,50,50) : new Color(50,50,50) ); //Bash     1     
 					 
 					  
 				  }
@@ -468,6 +599,7 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		}
 		else {
 			BashScreen.setVisible(true);
+			MenuNorth.setBackground(new Color(0x153c7a));
 		}
 		
 	}
@@ -481,10 +613,10 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	public void statScreen(boolean visited) {
 		if(visited == false) {
 		StatCenter.setBackground(new Color(50,50,50));
-		MenuNorth.setPreferredSize(new Dimension(100,100));
+		/*MenuNorth.setPreferredSize(new Dimension(100,100));
 		MenuSouth.setPreferredSize(new Dimension(100,100));
 		MenuEast.setPreferredSize(new Dimension(170,100));
-		MenuWest.setPreferredSize(new Dimension(170,100));
+		MenuWest.setPreferredSize(new Dimension(170,100)); */
 		StatCenter.setPreferredSize(new Dimension(500,500));
 		StatScreen.setLayout(new BorderLayout());
 		StatScreen.add(MenuNorth, BorderLayout.NORTH);
@@ -507,9 +639,69 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		StatTitle.setFont(new Font("MV Boli", Font.BOLD, 40));
 		StatTitle.setForeground(Color.white);
 		StatDrag.add(StatTitle);
+		StatDrag.add(User);
+		User.setFont(new Font("MV Boli", Font.BOLD, 20));
+		User.setForeground(Color.white);
+		User.setBounds(50, 10, 250,250);
+		Font stats = new Font("MV Boli", Font.BOLD,20);
+		StatPawn.setFont(stats);
+		StatBishop.setFont(stats);
+		StatRook.setFont(stats);
+		StatKnight.setFont(stats);
+		StatQueen.setFont(stats);
+		StatKing.setFont(stats);
+		StatWins.setFont(stats);
+		StatPawn.setForeground(Color.white);
+		StatBishop.setForeground(Color.white);
+		StatRook.setForeground(Color.white);
+		StatKnight.setForeground(Color.white);
+		StatQueen.setForeground(Color.white);
+		StatKing.setForeground(Color.white);
+		StatWins.setForeground(Color.white);
+		StatDrag.add(StatPawn);
+		StatDrag.add(StatBishop);
+		StatDrag.add(StatRook);
+		StatDrag.add(StatKnight);
+		StatDrag.add(StatQueen);
+		StatDrag.add(StatKing);
+		StatDrag.add(StatWins);
+		StatDrag.add(StatChess);
+		 StatChess.addActionListener(this);
+		 StatChess.setIcon(ChessIcon);
+		 StatChess.setForeground(Color.white);
+		 StatChess.setBackground(Color.black);
+		 // bash button
+		 StatDrag.add(StatBash);
+		 StatBash.addActionListener(this);
+		 StatBash.setIcon(BashIcon);
+		 StatBash.setForeground(Color.white);
+		 StatBash.setBackground(Color.black);
+		 // options button
+		 StatDrag.add(StatOption);
+		 StatOption.addActionListener(this);
+		 StatOption.setIcon(OptionsIcon);
+		 StatOption.setForeground(Color.white);
+		 StatOption.setBackground(Color.black);
+		 // sign-out button 
+		 StatDrag.add(StatSignout);
+		 StatSignout.addActionListener(this);
+		// SignoutMSButton.setIcon(SignoutIcon);
+		 StatSignout.setForeground(Color.white);
+		 StatSignout.setBackground(Color.black);
 		// spacing of Stat elements
 		StatTitle.setBounds(530, 25, 325, 150);
 		StatBackButton.setBounds(10, 10, 100, 50);
+		StatPawn.setBounds(330,100,500,100);
+		StatBishop.setBounds(330,150,500,100);
+		StatRook.setBounds(330,200,500,100);
+		StatKnight.setBounds(330,250,500,100);
+		StatQueen.setBounds(330,300,500,100);
+		StatKing.setBounds(330, 350, 500, 100);
+		StatWins.setBounds(330,400,500,100);
+		StatChess.setBounds(25, 150,  150, 70);
+		StatBash.setBounds(25, 250, 150, 70);
+		StatOption.setBounds(25, 350, 150, 70);
+		StatSignout.setBounds(25,450, 150,70);
 		// Stat design
 		 StatDesign.setLayout( new GridLayout(24, 24) );
 		 StatDesign.setBounds(0, 0, 1200, 1200);
@@ -519,9 +711,9 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 				  StatDesign.add( square );
 				  int row = i % 2;
 				  if (row == 0)
-				  square.setBackground( j % 2 == 0 ? new Color(0x4a4a4a) :new Color(0x303030) ); // 1     Stat
+				  square.setBackground( j % 2 == 0 ? new Color(50,50,50) :new Color(50,50,50) ); // 1     Stat
 				  else
-				  square.setBackground( j % 2 == 0 ? new Color(0x303030) : new Color(0x4a4a4a) ); //Stat     1     
+				  square.setBackground( j % 2 == 0 ? new Color(50,50,50) : new Color(50,50,50) ); //Stat     1     
 					  }
 		  }
 		this.add(StatScreen);
@@ -541,10 +733,10 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 	public void optionScreen(boolean visited) {
 		if(visited == false) {
 		OptionsCenter.setBackground(new Color(50,50,50));
-		MenuNorth.setPreferredSize(new Dimension(100,100));
+		/*MenuNorth.setPreferredSize(new Dimension(100,100));
 		MenuSouth.setPreferredSize(new Dimension(100,100));
 		MenuEast.setPreferredSize(new Dimension(170,100));
-		MenuWest.setPreferredSize(new Dimension(170,100));
+		MenuWest.setPreferredSize(new Dimension(170,100));*/
 		OptionsCenter.setPreferredSize(new Dimension(500,500));
 		OptionsScreen.setLayout(new BorderLayout());
 		OptionsScreen.add(MenuNorth, BorderLayout.NORTH);
@@ -566,13 +758,54 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		OptionsBackButton.setBackground(Color.black);
 		OptionsTitle.setFont(new Font("MV Boli", Font.BOLD, 40));
 		OptionsTitle.setForeground(Color.white);
+		OptionsDrag.add(User);
+		 User.setFont(new Font("MV Boli", Font.BOLD, 20));
+		 User.setForeground(Color.white);
+		 User.setBounds(50, 10, 250,250);
 		OptionsDrag.add(OptionsTitle);
-		//OptionsChangeTF;
+		OptionsChangeTF.setFont(new Font("MV Boli", Font.BOLD,25));
+		OptionsChangeTF.setForeground(new Color(0x21a628));
+		OptionsChangeTF.setBackground(Color.BLACK);
+		OptionsChangeTF.setCaretColor(new Color(0x21a628));
 		OptionsChangeButton.setForeground(Color.white);
 		OptionsChangeButton.setBackground(Color.black);
+		OptionsChangeButton.addActionListener(this);
+		OptionsDrag.add(OptionsChangeTF);
+		OptionsDrag.add(OptionsChangeButton);
+		OptionsDrag.add(OptionChess);
+		 OptionChess.addActionListener(this);
+		 OptionChess.setIcon(ChessIcon);
+		 OptionChess.setForeground(Color.white);
+		 OptionChess.setBackground(Color.black);
+		 
+		 
+		 // bash button
+		 OptionsDrag.add(OptionBash);
+		 OptionBash.addActionListener(this);
+		 OptionBash.setIcon(BashIcon);
+		 OptionBash.setForeground(Color.white);
+		 OptionBash.setBackground(Color.black);
+		 // options button
+		 OptionsDrag.add(OptionStat);
+		 OptionStat.addActionListener(this);
+		 OptionStat.setIcon(OptionsIcon);
+		 OptionStat.setForeground(Color.white);
+		 OptionStat.setBackground(Color.black);
+		 // sign-out button 
+		 OptionsDrag.add(OptionSignout);
+		 OptionSignout.addActionListener(this);
+		 //OptionSignout.setIcon(SignoutIcon);
+		 OptionSignout.setForeground(Color.white);
+		 OptionSignout.setBackground(Color.black);
 		// spacing of Options elements
 		OptionsTitle.setBounds(530, 25, 325, 150);
 		OptionsBackButton.setBounds(10, 10, 100, 50);
+		OptionsChangeTF.setBounds(330,200,325,100);
+		OptionsChangeButton.setBounds(680,200,125,100);
+		OptionChess.setBounds(25, 150,  150, 70);
+		OptionBash.setBounds(25, 250, 150, 70);
+		OptionStat.setBounds(25, 350, 150, 70);
+		OptionSignout.setBounds(25,450, 150,70);
 		// Options design
 		 OptionsDesign.setLayout( new GridLayout(24, 24) );
 		 OptionsDesign.setBounds(0, 0, 1200, 1200);
@@ -582,9 +815,9 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 				  OptionsDesign.add( square );
 				  int row = i % 2;
 				  if (row == 0)
-				  square.setBackground( j % 2 == 0 ? new Color(0x58137d) :new Color(0x430b61) ); // 1     Options
+				  square.setBackground( j % 2 == 0 ? new Color(50,50,50) :new Color(50,50,50) ); // 1     Options
 				  else
-				  square.setBackground( j % 2 == 0 ? new Color(0x430b61) : new Color(0x58137d) ); //Options     1     
+				  square.setBackground( j % 2 == 0 ? new Color(50,50,50) : new Color(50,50,50) ); //Options     1     
 					  }
 		  }
 		this.add(OptionsScreen);
@@ -611,6 +844,14 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			SigninScreen.add(MenuEast, BorderLayout.EAST);
 			SigninScreen.add(MenuWest, BorderLayout.WEST);
 			SigninScreen.add(SigninCenter, BorderLayout.CENTER);
+			MenuNorth.setBackground(new Color(0x153c7a));
+			StartImg.setText("BASH");
+			StartImg.setFont(new Font("MV Boli", Font.BOLD, 20));
+			StartImg.setForeground(Color.white);
+			StartImg.setIcon(BashIcon);
+			//StartImg.setVerticalTextPosition(JLabel.);
+			//StartImg.setHorizontalTextPosition(JLabel.CENTER);
+			MenuNorth.add(StartImg);
 			//Signin elements
 			SigninCenter.add(SigninLayered);
 			SigninLayered.setPreferredSize(new Dimension(1200,1200));
@@ -621,12 +862,16 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			SigninDrag.setLayout(null);
 			TFButton.addActionListener(this);
 			createAccount.addActionListener(this);
+			guestButton.addActionListener(this);
 			SigninDrag.add(TFButton);
 			SigninDrag.add(createAccount);
+			SigninDrag.add(guestButton);
 			TFButton.setForeground(Color.white);
 			TFButton.setBackground(Color.black);
 			createAccount.setForeground(Color.white);
 			createAccount.setBackground(Color.black);
+			guestButton.setForeground(Color.white);
+			guestButton.setBackground(Color.black);
 			SigninTitle.setFont(new Font("MV Boli", Font.BOLD, 40));
 			SigninTitle.setForeground(Color.white);
 			SigninDrag.add(SigninTitle);
@@ -639,7 +884,9 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		    SigninTF2.setBackground(Color.BLACK);
 		    SigninTF2.setCaretColor(new Color(0x21a628));
 		    SigninUser.setFont(new Font("MV Boli", Font.BOLD, 20));
+		    SigninUser.setForeground(Color.white);
 			SigninPass.setFont(new Font("MV Boli", Font.BOLD, 20));
+			SigninPass.setForeground(Color.white);
 			SigninDrag.add(SigninUser);
 			SigninDrag.add(SigninPass);
 	        SigninDrag.add(SigninTF);
@@ -650,8 +897,10 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			SigninPass.setBounds(325,350,350,100);
 			SigninTF.setBounds(450, 250, 350, 100);
 			SigninTF2.setBounds(450,350,350,100);
-			TFButton.setBounds(450,450,350,100);
-			createAccount.setBounds(450,550,350,100);
+			createAccount.setBounds(380,470,150,100);
+			guestButton.setBounds(545, 470, 150, 100);
+			TFButton.setBounds(710,470,150,100);
+			
 			// Signin design
 			 SigninDesign.setLayout( new GridLayout(24, 24) );
 			 SigninDesign.setBounds(0, 0, 1200, 1200);
@@ -661,9 +910,9 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 					  SigninDesign.add( square );
 					  int row = i % 2;
 					  if (row == 0)
-					  square.setBackground( j % 2 == 0 ? new Color(0x0f5913) :new Color(0x126e16) ); // 1     Signin
+					  square.setBackground( j % 2 == 0 ? new Color(50,50,50) :new Color(50,50,50) ); // 1     Signin
 					  else
-					  square.setBackground( j % 2 == 0 ? new Color(0x126e16) : new Color(0x0f5913) ); //Signin     1     
+					  square.setBackground( j % 2 == 0 ? new Color(50,50,50) : new Color(50,50,50) ); //Signin     1     
 							  }
 			  }
 			this.add(SigninScreen);
@@ -675,14 +924,20 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 				SigninScreen.add(MenuEast, BorderLayout.EAST);
 				SigninScreen.add(MenuWest, BorderLayout.WEST);
 				SigninScreen.add(SigninCenter, BorderLayout.CENTER);
+				MenuNorth.setBackground(new Color(0x153c7a));
+				StartImg.setText("BASH");
+				StartImg.setFont(new Font("MV Boli", Font.BOLD, 20));
+				StartImg.setForeground(Color.white);
+				StartImg.setIcon(BashIcon);
+				MenuNorth.add(StartImg);
 				SigninScreen.setVisible(true);
 			}
 		}
 		
 		public void createAccountScreen(boolean visited) {
 			if(visited == false) {			
-			createAccountScreen.setBackground(new Color(50,50,50));
-			createAccountScreen.setPreferredSize(new Dimension(500,500));
+			createAccountCenter.setBackground(new Color(50,50,50));
+			createAccountCenter.setPreferredSize(new Dimension(500,500));
 			createAccountScreen.setLayout(new BorderLayout());
 			createAccountScreen.add(MenuNorth, BorderLayout.NORTH);
 			createAccountScreen.add(MenuSouth, BorderLayout.SOUTH);
@@ -727,8 +982,8 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			password.setBounds(325,350,350,100);
 			accountName.setBounds(450, 250, 350, 100);
 			accountPassword.setBounds(450,350,350,100);
-			createButton.setBounds(450,450,350,100);
-			goBackButton.setBounds(450,550,350,100);
+			createButton.setBounds(450,450,175,100);
+			goBackButton.setBounds(625,450,175,100);
 			// create account design
 			 createAccountDesign.setLayout( new GridLayout(24, 24) );
 			 createAccountDesign.setBounds(0, 0, 1200, 1200);
@@ -738,9 +993,9 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 					  createAccountDesign.add( square );
 					  int row = i % 2;
 					  if (row == 0)
-					  square.setBackground( j % 2 == 0 ? new Color(0x0f5913) :new Color(0x126e16) );   
+					  square.setBackground( j % 2 == 0 ? new Color(50,50,50) :new Color(50,50,50) );   
 					  else
-					  square.setBackground( j % 2 == 0 ? new Color(0x126e16) : new Color(0x0f5913) );    
+					  square.setBackground( j % 2 == 0 ? new Color(50,50,50) : new Color(50,50,50) );    
 							  }
 			  }
 			this.add(createAccountScreen);
@@ -798,7 +1053,7 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		  chessBoard.setLayout( new GridLayout(8, 8) );
 		  chessBoard.setPreferredSize( boardSize );
 		  chessBoard.setBounds(0, 0, boardSize.width, boardSize.height);
-		  Board chessGame = new Board();
+		 // Board chessGame = new Board();
 		  for(int i = 0; i < 8; i++) {
 			  for(int j = 0; j < 8; j++ ) {
 				  JPanel square = new JPanel( new BorderLayout());
@@ -814,80 +1069,80 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		  }
 		 
 		  //Add pieces to the board
-		  JLabel piece = new JLabel( new ImageIcon("Brook.png") );
+		  JLabel piece = new JLabel( loadImage("/imgs/Brook.png") );
 		  JPanel panel = (JPanel)chessBoard.getComponent(0);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Bknight.png") );
+		  piece = new JLabel( loadImage("/imgs/Bknight.png"));
 		  panel = (JPanel)chessBoard.getComponent(1);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Bbishop.png") );
+		  piece = new JLabel( loadImage("/imgs/Bbishop.png") );
 		  panel = (JPanel)chessBoard.getComponent(2);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Bqueen.png") );
+		  piece = new JLabel( loadImage("/imgs/Bqueen.png") );
 		  panel = (JPanel)chessBoard.getComponent(3);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Bking.png") );
+		  piece = new JLabel( loadImage("/imgs/Bking.png") );
 		  panel = (JPanel)chessBoard.getComponent(4);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Bbishop.png") );
+		  piece = new JLabel(  loadImage("/imgs/Bbishop.png") );
 		  panel = (JPanel)chessBoard.getComponent(5);
 		  panel.add(piece);
 		  
-		  piece = new JLabel(new ImageIcon("Bknight.png"));
+		  piece = new JLabel( loadImage("/imgs/Bknight.png"));
 		  panel = (JPanel)chessBoard.getComponent(6);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Brook.png") );
+		  piece = new JLabel( loadImage("/imgs/Brook.png") );
 		  panel = (JPanel)chessBoard.getComponent(7);
 		  panel.add(piece);
 		  
 		  // pawn class works
 		  for(int i = 8; i < 16; i++) {
-			  Pawn pawn = new Pawn(i-1, i-9, false, 'p');
-			  panel = (JPanel)chessBoard.getComponent(i);
-			  panel.add(pawn.getImage());
-		  }
-		  
-		  for(int i = 48; i < 56; i++) {
-			  piece = new JLabel( new ImageIcon("Wpawn.png") );
+			  piece = new JLabel(loadImage("/imgs/Bpawn.png"));
 			  panel = (JPanel)chessBoard.getComponent(i);
 			  panel.add(piece);
 		  }
 		  
-		  piece = new JLabel( new ImageIcon("Wrook.png") );
+		  for(int i = 48; i < 56; i++) {
+			  piece = new JLabel( loadImage("/imgs/Wpawn.png") );
+			  panel = (JPanel)chessBoard.getComponent(i);
+			  panel.add(piece);
+		  }
+		  
+		  piece = new JLabel( loadImage("/imgs/Wrook.png") );
 		  panel = (JPanel)chessBoard.getComponent(56);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Wknight.png") );
+		  piece = new JLabel( loadImage("/imgs/Wknight.png") );
 		  panel = (JPanel)chessBoard.getComponent(57);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Wbishop.png") );
+		  piece = new JLabel( loadImage("/imgs/Wbishop.png") );
 		  panel = (JPanel)chessBoard.getComponent(58);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Wqueen.png") );
+		  piece = new JLabel( loadImage("/imgs/Wqueen.png") );
 		  panel = (JPanel)chessBoard.getComponent(59);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Wking.png") );
+		  piece = new JLabel( loadImage("/imgs/Wking.png") );
 		  panel = (JPanel)chessBoard.getComponent(60);
 		  panel.add(piece);
 		  
-		  piece = new JLabel(new ImageIcon("Wbishop.png"));
+		  piece = new JLabel(loadImage("/imgs/Wbishop.png"));
 		  panel = (JPanel)chessBoard.getComponent(61);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Wknight.png") );
+		  piece = new JLabel( loadImage("/imgs/Wknight.png") );
 		  panel = (JPanel)chessBoard.getComponent(62);
 		  panel.add(piece);
 		  
-		  piece = new JLabel( new ImageIcon("Wrook.png") );
+		  piece = new JLabel( loadImage("/imgs/Wrook.png") );
 		  panel = (JPanel)chessBoard.getComponent(63);
 		  panel.add(piece);
 		  
@@ -928,10 +1183,9 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		 
 		  if (c instanceof JLabel){
 		  Container parent = c.getParent();
-		 // if(c.getParent().isTeam())
 		  parent.remove(0);
 		  parent.add( chessPiece );
-		  }
+		  }  
 		  else {
 		  Container parent = (Container)c;
 		  parent.add( chessPiece );
@@ -951,6 +1205,5 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		  public void mouseExited(MouseEvent e) {
 		  
 		  }
-	
-
 }
+	
