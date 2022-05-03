@@ -195,7 +195,17 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 			
 			//Create account screen actions
 			if(e.getSource() == createButton) {
-				
+				String name = accountName.getText();
+				String pw = accountPassword.getText();
+				if(name != "" && pw != "") {
+					account u = new account(name, pw);
+					User.setText(name);
+					createAccountScreen.setVisible(false);
+					mainMenu(menuVisited);
+				}
+				else {
+					System.out.println("Username and password cannot be empty");
+				}
 			}
 			
 			if(e.getSource() == goBackButton) {
