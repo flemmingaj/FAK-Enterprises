@@ -1,0 +1,2 @@
+all files were created by FAK Enterprise. 
+Frame has a Method that was pulled from https://forgetcode.com/Java/848-Chess-game-Swing and then modified to fit the needs of bash. go to the FAK Enterpris GitHub and look under the branch Final Project to see all sorce code for Bash. 
