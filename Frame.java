@@ -672,6 +672,7 @@ class Frame extends JFrame implements ActionListener,  MouseListener, MouseMotio
 		OptionsChangeTF.setCaretColor(new Color(0x21a628));
 		OptionsChangeButton.setForeground(Color.white);
 		OptionsChangeButton.setBackground(Color.black);
+		OptionsChangeButton.addActionListener(this);
 		OptionsDrag.add(OptionsChangeTF);
 		OptionsDrag.add(OptionsChangeButton);
 		// spacing of Options elements
